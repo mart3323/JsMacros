@@ -4,7 +4,8 @@
     "mixins": [
     ],
     "client": [
-        "MixinTranslationStorage"
+        "MixinTranslationStorage",
+        "MixinForgeIngameGui"
     ],
     "injectors": {
         "defaultRequire": 1

@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.*;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.LiteralText;
@@ -28,7 +28,16 @@ public class JsMacros {
     public static final Logger LOGGER  = LogManager.getLogger();
     public static KeyBinding keyBinding = new KeyBinding("jsmacros.menu", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_K, I18n.translate("jsmacros.title"));
     public static BaseScreen prevScreen;
-    protected static final File configFolder = ServiceLoader.load(ConfigFolder.class).findFirst().orElseThrow().getFolder();
+    protected static final File configFolder;
+
+    static {
+        ServiceLoader<ConfigFolder> cf = ServiceLoader.load(ConfigFolder.class);
+        if (cf.iterator().hasNext()) {
+            configFolder = cf.iterator().next().getFolder();
+        } else {
+            throw new NullPointerException("Config folder provider not found");
+        }
+    }
 
     public static final Core<Profile, EventRegistry> core = Core.createInstance(EventRegistry::new, Profile::new, configFolder.getAbsoluteFile(), new File(configFolder, "Macros"), LOGGER);
 

@@ -46,7 +46,7 @@ dependencies {
 
     modImplementation "com.terraformersmc:modmenu:${rootProject.modmenu_version}"
 
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    common(project(path: ":common", configuration: "dev")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
 

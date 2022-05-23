@@ -14,26 +14,23 @@
  * limitations under the License.
  */
 
-package net.fabricmc.fabric.mixin.command.client;
+package net.fabricmc.fabric.mixin.command;
 
-import net.fabricmc.fabric.impl.command.client.ClientCommandInternals;
-import net.minecraft.client.network.ClientPlayerEntity;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.gen.Accessor;
+
+import net.minecraft.server.command.HelpCommand;
 
 /**
  * This class is from <a target="_blank" href="https://github.com/FabricMC/fabric">Fabric-api</a>
  * under the <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0 license</a>
  * modified slightly to work on forge by removing net.fabricmc.api.Environment
  */
-@Mixin(ClientPlayerEntity.class)
-abstract class ClientPlayerEntityMixin {
-    @Inject(method = {"sendChatMessage"}, at = @At("HEAD"), cancellable = true)
-    private void onSendChatMessage(String message, CallbackInfo info) {
-        if (ClientCommandInternals.executeCommand(message)) {
-            info.cancel();
-        }
+@Mixin(HelpCommand.class)
+public interface HelpCommandAccessor {
+    @Accessor("FAILED_EXCEPTION")
+    static SimpleCommandExceptionType getFailedException() {
+        throw new AssertionError("mixin");
     }
 }

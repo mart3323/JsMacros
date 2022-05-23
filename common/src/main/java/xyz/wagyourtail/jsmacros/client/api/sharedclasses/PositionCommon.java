@@ -1,8 +1,8 @@
 package xyz.wagyourtail.jsmacros.client.api.sharedclasses;
 
+import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
 
 /**
  * @author Wagyourtail
@@ -637,8 +637,8 @@ public class PositionCommon {
          * @since 1.6.5
          * @return
          */
-        public Vec3f toMojangFloatVector() {
-            return new Vec3f((float) (x2-x1), (float) (y2-y1), (float) (z2-z1));
+        public Vector3f toMojangFloatVector() {
+            return new Vector3f((float) (x2-x1), (float) (y2-y1), (float) (z2-z1));
         }
     }
 
