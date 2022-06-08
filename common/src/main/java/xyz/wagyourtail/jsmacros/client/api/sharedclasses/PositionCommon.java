@@ -1,6 +1,5 @@
 package xyz.wagyourtail.jsmacros.client.api.sharedclasses;
 
-import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;

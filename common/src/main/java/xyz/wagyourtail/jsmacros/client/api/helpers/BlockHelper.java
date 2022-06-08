@@ -101,7 +101,7 @@ public class BlockHelper extends BaseHelper<Block> {
      * @version 1.6.5
      */
     public List<String> getTags() {
-        return base.getRegistryEntry().streamTags().map(t -> t.id().toString()).collect(Collectors.toList());
+        return MinecraftClient.getInstance().getNetworkHandler().getTagManager().getOrCreateTagGroup(Registry.BLOCK_KEY).getTagsFor(base).stream().map(Identifier::toString).toList();
     }
 
     /**
