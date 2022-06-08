@@ -2,6 +2,7 @@ package xyz.wagyourtail.jsmacros.core.library.impl;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.util.Util;
+import xyz.wagyourtail.jsmacros.client.JsMacros;
 import xyz.wagyourtail.jsmacros.core.Core;
 import xyz.wagyourtail.jsmacros.core.MethodWrapper;
 import xyz.wagyourtail.jsmacros.core.config.BaseProfile;
@@ -28,9 +29,9 @@ import java.util.concurrent.Semaphore;
 
 /**
  * Functions that interact directly with JsMacros or Events.
- * 
+ *
  * An instance of this class is passed to scripts as the {@code JsMacros} variable.
- * 
+ *
  * @author Wagyourtail
  */
  @Library("JsMacros")
@@ -74,11 +75,11 @@ public class FJsMacros extends PerExecLibrary {
     }
 
     /**
-     * 
-     * @see FJsMacros#runScript(String, String, MethodWrapper)  
-     * 
+     *
+     * @see FJsMacros#runScript(String, String, MethodWrapper)
+     *
      * @since 1.1.5
-     * 
+     *
      * @param file
      * @return
      */
@@ -113,12 +114,12 @@ public class FJsMacros extends PerExecLibrary {
             return Core.getInstance().exec(new ScriptTrigger(ScriptTrigger.TriggerType.EVENT, "", Core.getInstance().config.macroFolder.getAbsoluteFile().toPath().resolve(file).toFile(), true), fakeEvent, null, null);
         }
     }
-    
+
     /**
      * @see FJsMacros#runScript(String, String, MethodWrapper)
-     * 
+     *
      * @since 1.2.4
-     * 
+     *
      * @param language
      * @param script
      * @return
@@ -126,12 +127,12 @@ public class FJsMacros extends PerExecLibrary {
     public EventContainer<?> runScript(String language, String script) {
         return runScript(language, script, null);
     }
-    
+
     /**
      * Runs a string as a script.
-     * 
+     *
      * @since 1.2.4
-     * 
+     *
      * @param language
      * @param script
      * @param callback calls your method as a {@link java.util.function.Consumer Consumer}&lt;{@link String}&gt;
@@ -253,13 +254,13 @@ public class FJsMacros extends PerExecLibrary {
 
     /**
      * Opens a file with the default system program.
-     * 
+     *
      * @since 1.1.8
-     * 
+     *
      * @param path relative to the script's folder.
      */
     public void open(String path) {
-        Util.getOperatingSystem().open(ctx.getContainedFolder().toPath().resolve(path).toFile());
+        JsMacros.openURI("file:///" + ctx.getContainedFolder().toPath().resolve(path).toFile().getAbsolutePath());
     }
 
     /**
@@ -267,17 +268,16 @@ public class FJsMacros extends PerExecLibrary {
      *
      * @param url
      *
-     * @throws MalformedURLException
      */
-    public void openUrl(String url) throws MalformedURLException {
-        Util.getOperatingSystem().open(new URL(url));
+    public void openUrl(String url) {
+        JsMacros.openURI(url);
     }
-    
+
     /**
      * Creates a listener for an event, this function can be more efficient that running a script file when used properly.
-     * 
+     *
      * @see IEventListener
-     * 
+     *
      * @since 1.2.7
      * @param event
      * @param callback calls your method as a {@link java.util.function.BiConsumer BiConsumer}&lt;{@link BaseEvent}, {@link EventContainer}&gt;
@@ -290,13 +290,13 @@ public class FJsMacros extends PerExecLibrary {
         }
         Thread th = Thread.currentThread();
         IEventListener listener = new ScriptEventListener() {
-            
+
             @Override
             public EventContainer<?> trigger(BaseEvent e) {
                 EventContainer<?> p = new EventContainer<>(ctx);
                 Thread t = new Thread(() -> {
                     Thread.currentThread().setName(this.toString());
-                    
+
                     try {
                         callback.accept(e, p);
                     } catch (Throwable ex) {
@@ -311,17 +311,17 @@ public class FJsMacros extends PerExecLibrary {
                 t.start();
                 return p;
             }
-    
+
             @Override
             public Thread getCreator() {
                 return th;
             }
-    
+
             @Override
             public MethodWrapper<BaseEvent, EventContainer<?>, Object, ?> getWrapper() {
                 return callback;
             }
-    
+
             @Override
             public String toString() {
                 return String.format("ScriptEventListener:{\"creator\":\"%s\", \"event\":\"%s\"}", th.getName(), event);
@@ -330,14 +330,14 @@ public class FJsMacros extends PerExecLibrary {
         Core.getInstance().eventRegistry.addListener(event, listener);
         return listener;
     }
-        
+
     /**
      * Creates a single-run listener for an event, this function can be more efficient that running a script file when used properly.
-     * 
+     *
      * @see IEventListener
-     * 
+     *
      * @since 1.2.7
-     * 
+     *
      * @param event
      * @param callback calls your method as a {@link java.util.function.BiConsumer BiConsumer}&lt;{@link BaseEvent}, {@link EventContainer}&gt;
      * @return the listener.
@@ -368,46 +368,46 @@ public class FJsMacros extends PerExecLibrary {
                 t.start();
                 return p;
             }
-    
+
             @Override
             public Thread getCreator() {
                 return th;
             }
-    
+
             @Override
             public MethodWrapper<BaseEvent, EventContainer<?>, Object, ?> getWrapper() {
                 return callback;
             }
-    
+
             @Override
             public String toString() {
                 return String.format("OnceScriptEventListener:{\"creator\":\"%s\", \"event\":\"%s\"}", th.getName(), event);
             }
-            
+
         };
         Core.getInstance().eventRegistry.addListener(event, listener);
         return listener;
     }
-    
+
     /**
      * @see FJsMacros#off(String, IEventListener)
-     * 
+     *
      * @since 1.2.3
-     * 
+     *
      * @param listener
      * @return
      */
     public boolean off(IEventListener listener) {
         return Core.getInstance().eventRegistry.removeListener(listener);
     }
-    
+
     /**
      * Removes a {@link IEventListener IEventListener} from an event.
-     * 
+     *
      * @see IEventListener
-     * 
+     *
      * @since 1.2.3
-     * 
+     *
      * @param event
      * @param listener
      * @return
@@ -533,11 +533,11 @@ public class FJsMacros extends PerExecLibrary {
         // returns new context and event value to the user so they can release joined stuff early
         return new EventAndContext(ev[0], ctxCont[0]);
     }
-    
+
     /**
-     * 
+     *
      * @since 1.2.3
-     * 
+     *
      * @param event
      * @return a list of script-added listeners.
      */
@@ -548,13 +548,13 @@ public class FJsMacros extends PerExecLibrary {
         }
         return listeners;
     }
-    
+
     /**
-    * create a custom event object that can trigger a event. It's recommended to use 
+    * create a custom event object that can trigger a event. It's recommended to use
     * {@link EventCustom#registerEvent()} to set up the event to be visible in the GUI.
-    * 
+    *
     * @see BaseEventRegistry#addEvent(String)
-    * 
+    *
      * @param eventName name of the event. please don't use an existing one... your scripts might not like that.
      *
      * @since 1.2.8
@@ -564,10 +564,10 @@ public class FJsMacros extends PerExecLibrary {
     public EventCustom createCustomEvent(String eventName) {
         return new EventCustom(eventName);
     }
-    
+
     public interface ScriptEventListener extends IEventListener {
         Thread getCreator();
-        
+
         MethodWrapper<BaseEvent, EventContainer<?>, Object, ?> getWrapper();
     }
 

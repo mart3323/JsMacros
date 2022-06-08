@@ -1,11 +1,10 @@
 package xyz.wagyourtail.jsmacros.client.api.helpers;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.item.ItemStack;
 import xyz.wagyourtail.jsmacros.core.helpers.BaseHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +21,7 @@ public class BlockHelper extends BaseHelper<Block> {
     /**
      * @return the default state of the block.
      *
-     * @version 1.6.5
+     * @since 1.6.5
      */
     public BlockStateHelper getDefaultState() {
         return new BlockStateHelper(base.getDefaultState());
@@ -31,10 +30,10 @@ public class BlockHelper extends BaseHelper<Block> {
     /**
      * @return the default item stack of the block.
      *
-     * @version 1.6.5
+     * @since 1.6.5
      */
     public ItemStackHelper getDefaultItemStack() {
-        return new ItemStackHelper(base.asItem().getStackForRender());
+        return new ItemStackHelper(base.getItemStack(null, null, null));
     }
 
     public boolean canMobSpawnInside() {
@@ -44,25 +43,25 @@ public class BlockHelper extends BaseHelper<Block> {
     /**
      * @return {@code true} if the block has dynamic bounds.
      *
-     * @version 1.6.5
+     * @since 1.6.5
      */
     public boolean hasDynamicBounds() {
-        return base.hasDynamicBounds();
+        return false;
     }
 
     /**
      * @return the blast resistance.
      *
-     * @version 1.6.5
+     * @since 1.6.5
      */
     public float getBlastResistance() {
-        return base.getBlastResistance();
+        return base.getBlastResistance(null);
     }
 
     /**
      * @return the jump velocity multiplier.
      *
-     * @version 1.6.5
+     * @since 1.6.5
      */
     public float getJumpVelocityMultiplier() {
         return 1;
@@ -71,25 +70,25 @@ public class BlockHelper extends BaseHelper<Block> {
     /**
      * @return the slipperiness.
      *
-     * @version 1.6.5
+     * @since 1.6.5
      */
     public float getSlipperiness() {
-        return base.getSlipperiness();
+        return base.slipperiness;
     }
 
     /**
      * @return the hardness.
      *
-     * @version 1.6.5
+     * @since 1.6.5
      */
     public float getHardness() {
-        return base.getDefaultState().getHardness(null, null);
+        return base.getStrength(base.getDefaultState(), null, null);
     }
 
     /**
      * @return the velocity multiplier.
      *
-     * @version 1.6.5
+     * @since 1.6.5
      */
     public float getVelocityMultiplier() {
         return 1;
@@ -98,28 +97,28 @@ public class BlockHelper extends BaseHelper<Block> {
     /**
      * @return all tags of the block as an {@link java.util.ArrayList ArrayList}.
      *
-     * @version 1.6.5
+     * @since 1.6.5
      */
     public List<String> getTags() {
-        return MinecraftClient.getInstance().getNetworkHandler().getTagManager().blocks().getTagsFor(base).stream().map(Identifier::toString).collect(Collectors.toList());
+        return new ArrayList<>();
     }
 
     /**
      * @return all possible block states of the block.
      *
-     * @version 1.6.5
+     * @since 1.6.5
      */
     public List<BlockStateHelper> getStates() {
-        return base.getStateManager().getStates().stream().map(BlockStateHelper::new).collect(Collectors.toList());
+        return base.getStateManager().getBlockStates().stream().map(BlockStateHelper::new).collect(Collectors.toList());
     }
 
     /**
      * @return the identifier of the block.
      *
-     * @version 1.6.5
+     * @since 1.6.5
      */
     public String getId() {
-        return Registry.BLOCK.getId(base).toString();
+        return Block.REGISTRY.getIdentifier(base).toString();
     }
 
     @Override
