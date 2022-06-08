@@ -1,8 +1,8 @@
 package xyz.wagyourtail.jsmacros.client.api.sharedclasses;
 
 
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vector3d;
 
 /**
  * @author Wagyourtail
@@ -145,7 +145,7 @@ public class PositionCommon {
         public static final Pos3D ZERO = new Pos3D(0, 0, 0);
         public double z;
 
-        public Pos3D(Vec3d vec) {
+        public Pos3D(net.minecraft.util.Vec3 vec) {
             this(vec.x, vec.y, vec.z);
         }
 

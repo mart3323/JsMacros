@@ -1,6 +1,6 @@
 package net.fabricmc.loader.api;
 
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Loader;
 import xyz.wagyourtail.jsmacros.forge.client.FakeFabricLoader;
 
@@ -19,11 +19,11 @@ public interface FabricLoader {
     }
 
     default File getGameDirectory() {
-        return MinecraftClient.getInstance().runDirectory;
+        return Minecraft.getInstance().runDirectory;
     }
 
     default Path getGameDir() {
-        return MinecraftClient.getInstance().runDirectory.toPath();
+        return Minecraft.getInstance().runDirectory.toPath();
     }
 
     default Path getConfigDir() {

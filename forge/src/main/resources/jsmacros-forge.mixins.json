@@ -1,12 +1,12 @@
 {
     "required": true,
     "package": "xyz.wagyourtail.jsmacros.forge.client.mixins",
+    "refmap": "jsmacros-forge.refmap.json",
     "mixins": [
     ],
     "client": [
         "MixinInGameHud",
-        "MixinLanguageManager",
-        "MixinTextRenderer"
+        "MixinLanguageManager"
     ],
     "injectors": {
         "defaultRequire": 1
