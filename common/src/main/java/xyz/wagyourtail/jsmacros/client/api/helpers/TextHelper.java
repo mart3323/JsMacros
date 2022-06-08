@@ -1,7 +1,6 @@
 package xyz.wagyourtail.jsmacros.client.api.helpers;
 
-import net.minecraft.text.LiteralTextContent;
-import net.minecraft.text.MutableText;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import xyz.wagyourtail.jsmacros.core.MethodWrapper;
 import xyz.wagyourtail.jsmacros.core.helpers.BaseHelper;
@@ -41,7 +40,7 @@ public class TextHelper extends BaseHelper<Text> {
      * @return
      */
     public TextHelper replaceFromString(String content) {
-        base = Text.literal(content);
+        base = new LiteralText(content);
         return this;
     }
     
