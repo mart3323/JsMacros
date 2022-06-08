@@ -327,7 +327,7 @@ public class WorldScanner {
         }
     }
 
-    private static void count(PalettedContainer<BlockState> container, boolean[] isInFilter, PalettedContainer.CountConsumer<BlockState> counter) {
+    private static void count(PalettedContainer<BlockState> container, boolean[] isInFilter, PalettedContainer.class_4464<BlockState> counter) {
         IPalettedContainer<BlockState> data = ((IPalettedContainer<BlockState>) container);
         Palette<BlockState> palette = (Palette<BlockState>) data.jsmacros_getPaletteProvider();
         PackedIntegerArray storage = data.jsmacros_getData();
@@ -337,7 +337,7 @@ public class WorldScanner {
         if (((ArrayPalette<BlockState>) palette).getSize() == 1) {
             counter.accept(palette.getByIndex(0), storage.getSize());
         } else {
-            storage.forEach(key -> count[key]++);
+            storage.method_21739(key -> count[key]++);
             for (int idx = 0; idx < count.length; idx++) {
                 if (isInFilter[idx]) {
                     counter.accept(palette.getByIndex(idx), count[idx]);
