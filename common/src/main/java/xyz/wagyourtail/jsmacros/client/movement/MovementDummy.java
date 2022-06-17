@@ -37,7 +37,10 @@ public class MovementDummy extends EntityLivingBase {
     public MovementDummy(EntityPlayerSP player) {
         this(player.world, player.getPos(), new Vec3(player.velocityX, player.velocityY, player.velocityZ), player.getBoundingBox(), player.onGround, player.isSprinting(), player.isSneaking());
         this.walkSpeed = player.abilities.getWalkSpeed();
-        this.armorStack.addAll(Arrays.stream(player.getArmorStacks()).map(ItemStack::copy).collect(Collectors.toList()));
+        this.armorStack.addAll(Arrays.stream(player.getArmorStacks()).map((e) -> {
+            if (e != null) return e.copy();
+            return null;
+        }).collect(Collectors.toList()));
     }
 
     public MovementDummy(World world, Vec3 pos, Vec3 velocity, AxisAlignedBB hitBox, boolean onGround, boolean isSprinting, boolean isSneaking) {
