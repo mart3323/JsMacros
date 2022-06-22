@@ -122,11 +122,19 @@ import java.util.*;
              pressedKeys.add(key);
         }
 
+        public synchronized static void press(KeyBinding bind) {
+            pressedKeys.add(bind.getCode());
+        }
+
         public synchronized static void unpress(int key) {
              pressedKeys.remove(key);
         }
 
-        public static synchronized Set<String> getPressedKeys() {
+        public synchronized static void unpress(KeyBinding bind) {
+            pressedKeys.remove(bind.getCode());
+        }
+
+        public static synchronized Set<Integer> getPressedKeys() {
             return ImmutableSet.copyOf(pressedKeys);
         }
     }
