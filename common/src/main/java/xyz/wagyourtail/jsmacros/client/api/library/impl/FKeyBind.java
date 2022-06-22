@@ -29,7 +29,7 @@ public class FKeyBind extends BaseLibrary {
      * @param keyName
      * @return the raw minecraft keycode class
      */
-    public InputUtil.KeyCode getKeyCode(String keyName) {
+    protected InputUtil.KeyCode getKeyCode(String keyName) {
         try {
             return InputUtil.fromName(keyName);
         } catch (Exception e) {
@@ -143,7 +143,7 @@ public class FKeyBind extends BaseLibrary {
     public static class KeyTracker {
         private static final Set<String> pressedKeys = new HashSet<>();
 
-        public synchronized static void press(Key key) {
+        public synchronized static void press(InputUtil.KeyCode key) {
             String translationKey = key.getName();
             if (translationKey != null) {
                 pressedKeys.add(translationKey);
@@ -157,7 +157,7 @@ public class FKeyBind extends BaseLibrary {
             }
         }
 
-        public synchronized static void unpress(Key key) {
+        public synchronized static void unpress(InputUtil.KeyCode key) {
             String translationKey = key.getName();
             if (translationKey != null) {
                 pressedKeys.remove(translationKey);
