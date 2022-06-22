@@ -4,10 +4,7 @@ import net.minecraft.client.font.TextRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -74,12 +71,13 @@ public abstract class MixinTextRenderer {
     @Unique
     boolean extraShiftInTrimString = false;
 
-    @Inject(method = "trimToWidth(Ljava/lang/String;IZ)Ljava/lang/String;", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;method_949(C)I"), locals = LocalCapture.CAPTURE_FAILHARD, require = 0)
+    @Inject(method = "trimToWidth(Ljava/lang/String;IZ)Ljava/lang/String;", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;method_949(C)I"), locals = LocalCapture.CAPTURE_FAILSOFT, require = 0)
     public void fixTrimString(String text, int width, boolean rightToLeft, CallbackInfoReturnable<String> cir, StringBuilder stringBuilder, int i, int j, int k, boolean flag, boolean flag1, int l, char c0) {
         if (flag && c0 == '#') {
             extraShiftInTrimString = true;
         }
     }
+
 
     @ModifyVariable(method = "trimToWidth(Ljava/lang/String;IZ)Ljava/lang/String;", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;method_949(C)I", shift = At.Shift.AFTER), index = 10, require = 0)
     public int shiftIndexTrimString(int index) {

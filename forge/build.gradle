@@ -20,7 +20,7 @@ configurations {
 
 loom {
     forge {
-        mixinConfigs "fabric-command-api-v1.mixins.json", "jsmacros-forge.mixins.json"
+        mixinConfigs "jsmacros-forge.mixins.json"
     }
 }
 
@@ -55,6 +55,11 @@ processResources {
 
     filesMatching("META-INF/mods.toml") {
         expand "version": project.version
+        expand "mcversion": project.minecraft_version
+    }
+
+    filesMatching("mcmod.info") {
+        expand "version": project.version, "mcversion": project.minecraft_version
     }
 }
 
