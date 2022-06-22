@@ -52,13 +52,13 @@ public class ForgeEvents {
 
     @SubscribeEvent
     public void onKey(InputEvent.KeyInputEvent keyEvent) {
-        if (Keyboard.getEventKeyState() ^ FKeyBind.pressedKeys.contains(Keyboard.getEventKey()))
+        if (Keyboard.getEventKeyState() ^ FKeyBind.KeyTracker.getPressedKeys().contains(Keyboard.getEventKey()))
             new EventKey(Keyboard.getEventKey(), 0, Keyboard.getEventKeyState() ? 1 : 0, BaseScreen.createModifiers());
     }
 
     @SubscribeEvent
     public void onMouse(InputEvent.MouseInputEvent mouseEvent) {
-        if (Mouse.getEventButtonState() ^ FKeyBind.pressedKeys.contains(Mouse.getEventButton() - 100))
+        if (Mouse.getEventButtonState() ^ FKeyBind.KeyTracker.getPressedKeys().contains(Mouse.getEventButton() - 100))
             new EventKey(Mouse.getEventButton() - 100, 0, Mouse.getEventButtonState() ? 1 : 0, BaseScreen.createModifiers());
     }
 }
