@@ -91,6 +91,8 @@ public class Main implements Doclet {
 
         try {
             outputTS.append("""
+                /// <reference path="Graal.d.ts"/>
+
                 declare const event: Events.BaseEvent;
                 declare const file: _javatypes.java.io.File;
                 declare const context: _javatypes.xyz.wagyourtail.jsmacros.core.language.EventContainer<any>;
