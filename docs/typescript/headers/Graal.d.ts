@@ -51,15 +51,15 @@ declare const Polyglot: {
 
 
 /**
- * 
+ *
  * Declare the java typings inside the Java namespace, because why not.
  * java types should all be interfaces so new users don't try to call `new` on them directly.
  * java typings should be namespaced by their package name, for organizational/asthetic reasons,
- * except for java.lang.*, those go top level if they need to be implemented, 
+ * except for java.lang.*, those go top level if they need to be implemented,
  * tho they should probably get upstreamed to this file.
- * 
+ *
  * Declaring this namespace for appending to it is expected of the user if they would like typing for other java classes.
- * 
+ *
  * It would be nice if any libraries that add java classes / functions, used in paramethers or return values,
  * would also include the classes in the same way with a re-declaration to extend the namespace in the libraries typescript file.
  */
@@ -72,7 +72,7 @@ declare namespace Java {
     export interface Interface {}
 
     /**
-     * I know this one isn't really a class in java, but please use it as a wrapper for java arrays, 
+     * I know this one isn't really a class in java, but please use it as a wrapper for java arrays,
      * so we can differentiate it from other ArrayLike structures.
      */
     export interface Array<T> extends Java.Object, ArrayLike<T> {
@@ -80,8 +80,8 @@ declare namespace Java {
         length: number;
     }
 
-    export interface StackTraceElement extends Java.Object, Java.java.io.Serializable {	
-		
+    export interface StackTraceElement extends Java.Object, Java.java.io.Serializable {
+
 		getFileName():string;
 		getLineNumber():number;
 		getClassName():string;
@@ -90,11 +90,11 @@ declare namespace Java {
 		toString():string;
 		equals(arg0: any):boolean;
 		hashCode():number;
-		
+
 	}
 
-    export interface Throwable extends Java.Object, Java.java.io.Serializable, Error {	
-		
+    export interface Throwable extends Java.Object, Java.java.io.Serializable, Error {
+
 		getMessage():string;
 		getLocalizedMessage():string;
 		getCause():Java.Throwable;
@@ -105,13 +105,13 @@ declare namespace Java {
 		setStackTrace(arg0: Java.Array<Java.StackTraceElement>):void;
 		addSuppressed(arg0: Java.Throwable):void;
 		getSuppressed():Java.Array<Java.Throwable>;
-		
+
     }
-    
+
 
     export namespace java {
         export namespace util {
-            
+
             export interface Collection<T> extends Java.Object, ArrayLike<T> {
                 readonly [n: number]: T;
                 size(): number;
@@ -155,7 +155,7 @@ declare namespace Java {
             }
             export interface Set<T> extends Collection<T> {}
         }
-    
+
         export namespace io {
             export interface File extends Java.Object {
                 canExecute(): boolean;
@@ -187,13 +187,13 @@ declare namespace Java {
                 toString(): string;
                 toURI(): Java.java.net.URI;
             }
-            
-			export interface Serializable extends Java.Object {	
-				
-				
+
+			export interface Serializable extends Java.Object {
+
+
 			}
         }
-        
+
         export namespace net {
             export interface URL extends Java.Object {
                 getFile(): string;
