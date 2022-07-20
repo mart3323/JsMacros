@@ -19,7 +19,7 @@ jobs:
   deploy_1_19:
     uses: wagyourtail/jsmacros/.github/workflows/releasedeploy.yml@main-1.19
     with:
-      branch: main-1.18
+      branch: main-1.19
       game_vers: 1.18.2
       java_vers: 17
       GITHUB_REF: ${{ github.ref }}
@@ -28,7 +28,6 @@ jobs:
       MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
     needs:
       - build_1_19
-      - deploy_1_18
 
   upload_pydoc:
     runs-on: ubuntu-latest
