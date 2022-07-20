@@ -37,7 +37,7 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v2
         with:
-          name: main-1.19
+          name: tsconfig2
           path: dist
 
       - name: Install Python
@@ -69,7 +69,7 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v2
         with:
-          name: main-1.19
+          name: tsconfig2
           path: dist
       - uses: actions/setup-node@v3
         name: Setup node
