@@ -62,6 +62,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Setup node to publish npm package
+        uses: actions/setup-node@v1
+        with:
+          node-version: latest
+          registry-url: https://npm.pkg.github.com/
+
+      - name: Publish to node
+        run: npm publish
+
       - name: Zip TS
         uses: vimtor/action-zip@v1
         with:
