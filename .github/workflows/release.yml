@@ -182,3 +182,19 @@ jobs:
           cd dist/python
           python setup.py dist bdist_wheel
           twine upload dist/*
+
+  publish_npm:
+    runs-on: ubuntu-latest
+    needs:
+      - build_1_19
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout repository
+      - uses: actions/setup-node@v1
+        name: Setup node
+        with:
+          node-version: latest
+          registry-url: https://npm.pkg.github.com/
+
+      - name: Publish to node
+        run: npm publish

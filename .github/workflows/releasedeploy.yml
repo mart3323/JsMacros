@@ -62,15 +62,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup node to publish npm package
-        uses: actions/setup-node@v1
-        with:
-          node-version: latest
-          registry-url: https://npm.pkg.github.com/
-
-      - name: Publish to node
-        run: npm publish
-
       - name: Zip TS
         uses: vimtor/action-zip@v1
         with:
@@ -96,7 +87,7 @@ jobs:
             return `${process.env.REF.replace(/\/?refs\/tags\//, '')}+${process.env.GV.split(/\s/)[0]}`
 
       - name: Run Publish Fabric
-        if: ${{ steps.fabric_release.outputs.result != 'false' }}
+        if: ${{ false }}
         uses: Kir-Antipov/mc-publish@v2.1
         with:
           modrinth-id: 3wGWhm8A
@@ -119,7 +110,7 @@ jobs:
           retry-delay: 60000
 
       - name: Run Publish Forge
-        if: ${{ steps.forge_release.outputs.result != 'false' }}
+        if: ${{ false }}
         uses: Kir-Antipov/mc-publish@v2.1
         with:
           modrinth-id: 3wGWhm8A
