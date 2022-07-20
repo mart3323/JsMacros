@@ -16,48 +16,6 @@ jobs:
       branch: main-1.19
       java_version: 17
 
-  build_1_18:
-    uses: jsmacros/jsmacros/.github/workflows/releasebuild.yml@main-1.19
-    with:
-      branch: backport-1.18.2
-      java_version: 17
-
-  build_1_17:
-    uses: jsmacros/jsmacros/.github/workflows/releasebuild.yml@main-1.19
-    with:
-      branch: backport-1.17.1
-      java_version: 17
-
-  build_1_16:
-    uses: jsmacros/jsmacros/.github/workflows/releasebuild.yml@main-1.19
-    with:
-      branch: backport-1.16.5
-      java_version: 17
-
-  build_1_15:
-    uses: jsmacros/jsmacros/.github/workflows/releasebuild.yml@main-1.19
-    with:
-      branch: backport-1.15.2
-      java_version: 17
-
-  build_1_14:
-    uses: jsmacros/jsmacros/.github/workflows/releasebuild.yml@main-1.19
-    with:
-      branch: backport-1.14.4
-      java_version: 17
-
-  build_1_12:
-    uses: jsmacros/jsmacros/.github/workflows/releasebuild.yml@main-1.19
-    with:
-      branch: backport-1.12.2
-      java_version: 17
-
-  build_1_8:
-    uses: jsmacros/jsmacros/.github/workflows/releasebuild.yml@main-1.19
-    with:
-      branch: backport-1.8.9
-      java_version: 8
-
   deploy_1_19:
     uses: jsmacros/jsmacros/.github/workflows/releasedeploy.yml@main-1.19
     with:
@@ -71,107 +29,6 @@ jobs:
     needs:
       - build_1_19
       - deploy_1_18
-
-  deploy_1_18:
-    uses: jsmacros/jsmacros/.github/workflows/releasedeploy.yml@main-1.19
-    with:
-      branch: backport-1.18.2
-      game_vers: 1.18.2
-      java_vers: 17
-      GITHUB_REF: ${{ github.ref }}
-    secrets:
-      CF_API_KEY: ${{ secrets.CF_API_KEY }}
-      MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-    needs:
-      - build_1_18
-      - deploy_1_17
-
-  deploy_1_17:
-    uses: jsmacros/jsmacros/.github/workflows/releasedeploy.yml@main-1.19
-    with:
-      branch: backport-1.17.1
-      game_vers: 1.17.1
-      java_vers: 16
-      GITHUB_REF: ${{ github.ref }}
-    secrets:
-      CF_API_KEY: ${{ secrets.CF_API_KEY }}
-      MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-    needs:
-      - build_1_17
-      - deploy_1_16
-
-  deploy_1_16:
-    uses: jsmacros/jsmacros/.github/workflows/releasedeploy.yml@main-1.19
-    with:
-      branch: backport-1.16.5
-      game_vers: |
-        1.16.5
-        1.16.4
-        1.16.3
-      java_vers: 8
-      GITHUB_REF: ${{ github.ref }}
-    secrets:
-      CF_API_KEY: ${{ secrets.CF_API_KEY }}
-      MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-    needs:
-      - build_1_16
-      - deploy_1_15
-
-  deploy_1_15:
-    uses: jsmacros/jsmacros/.github/workflows/releasedeploy.yml@main-1.19
-    with:
-      branch: backport-1.15.2
-      game_vers: 1.15.2
-      java_vers: 8
-      GITHUB_REF: ${{ github.ref }}
-    secrets:
-      CF_API_KEY: ${{ secrets.CF_API_KEY }}
-      MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-    needs:
-      - build_1_15
-      - deploy_1_14
-
-  deploy_1_14:
-    uses: jsmacros/jsmacros/.github/workflows/releasedeploy.yml@main-1.19
-    with:
-      branch: backport-1.14.4
-      game_vers: 1.14.4
-      java_vers: 8
-      GITHUB_REF: ${{ github.ref }}
-    secrets:
-      CF_API_KEY: ${{ secrets.CF_API_KEY }}
-      MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-    needs:
-      - build_1_14
-      - deploy_1_12
-
-  deploy_1_12:
-    uses: jsmacros/jsmacros/.github/workflows/releasedeploy.yml@main-1.19
-    with:
-      branch: backport-1.12.2
-      game_vers: 1.12.2
-      java_vers: 8
-      GITHUB_REF: ${{ github.ref }}
-    secrets:
-      CF_API_KEY: ${{ secrets.CF_API_KEY }}
-      MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-    needs:
-      - build_1_12
-      - deploy_1_8
-
-  deploy_1_8:
-    uses: jsmacros/jsmacros/.github/workflows/releasedeploy.yml@main-1.19
-    with:
-      branch: backport-1.8.9
-      game_vers: 1.8.9
-      java_vers: 8
-      GITHUB_REF: ${{ github.ref }}
-    secrets:
-      CF_API_KEY: ${{ secrets.CF_API_KEY }}
-      MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-    needs:
-      - build_1_8
-
 
   upload_pydoc:
     runs-on: ubuntu-latest
@@ -208,13 +65,19 @@ jobs:
     needs:
       - build_1_19
     steps:
-      - uses: actions/checkout@v2
-        name: Checkout repository
-      - uses: actions/setup-node@v1
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: main-1.19
+          path: dist
+      - uses: actions/setup-node@v3
         name: Setup node
         with:
           node-version: latest
           registry-url: https://npm.pkg.github.com/
 
       - name: Publish to node
-        run: npm publish
+        run: |
+          cd dist/docs/typescript
+          npm publish
+
