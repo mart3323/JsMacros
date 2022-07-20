@@ -87,7 +87,7 @@ jobs:
             return `${process.env.REF.replace(/\/?refs\/tags\//, '')}+${process.env.GV.split(/\s/)[0]}`
 
       - name: Run Publish Fabric
-        if: ${{ steps.fabric_release.outputs.result != 'false' }}
+        if: ${{ false }}
         uses: Kir-Antipov/mc-publish@v2.1
         with:
           modrinth-id: 3wGWhm8A
@@ -110,7 +110,7 @@ jobs:
           retry-delay: 60000
 
       - name: Run Publish Forge
-        if: ${{ steps.forge_release.outputs.result != 'false' }}
+        if: ${{ false }}
         uses: Kir-Antipov/mc-publish@v2.1
         with:
           modrinth-id: 3wGWhm8A

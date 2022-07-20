@@ -13,7 +13,7 @@ jobs:
   build_1_19:
     uses: wagyourtail/jsmacros/.github/workflows/releasebuild.yml@main-1.19
     with:
-      branch: main-1.19
+      branch: 6
       java_version: 17
 
   build_1_18:
@@ -182,3 +182,30 @@ jobs:
           cd dist/python
           python setup.py dist bdist_wheel
           twine upload dist/*
+
+  publish_npm:
+    runs-on: ubuntu-latest
+    needs:
+      - build_1_19
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: main-1.19
+          path: dist
+      - uses: actions/setup-node@v3
+        name: Setup node
+        with:
+          node-version: latest
+          registry-url: https://npm.pkg.github.com/
+
+      - name: Publish to node
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ls .
+          ls dist
+          cd dist/typescript
+          npm version ${{github.ref_name}}
+          npm publish
+
