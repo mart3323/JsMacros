@@ -28,7 +28,6 @@
   },
   "homepage": "https://github.com/JsMacros/JsMacros#readme",
   "publishConfig": {
-    "registry": "http://localhost:4873"
-  },
-  "private": true
+    "registry": "https://npm.pkg.github.com/"
+  }
 }

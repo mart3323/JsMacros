@@ -82,5 +82,6 @@ jobs:
           ls .
           ls dist
           cd dist/typescript
+          npm version ${{github.ref_name}}
           npm publish
 
