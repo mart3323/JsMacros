@@ -28,7 +28,6 @@ jobs:
       MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
     needs:
       - build_1_19
-      - deploy_1_18
 
   upload_pydoc:
     runs-on: ubuntu-latest
