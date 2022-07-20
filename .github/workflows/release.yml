@@ -13,13 +13,13 @@ jobs:
   build_1_19:
     uses: jsmacros/jsmacros/.github/workflows/releasebuild.yml@main-1.19
     with:
-      branch: main-1.19
+      branch: tsconfig2
       java_version: 17
 
   deploy_1_19:
     uses: jsmacros/jsmacros/.github/workflows/releasedeploy.yml@main-1.19
     with:
-      branch: main-1.19
+      branch: tsconfig2
       game_vers: 1.19
       java_vers: 17
       GITHUB_REF: ${{ github.ref }}
