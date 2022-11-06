@@ -228,7 +228,7 @@ jobs:
         with:
           result-encoding: string
           script: |
-            return `${process.env.REF.replace(/\/?refs\/ta4gs\//, '')}`
+            return `${process.env.REF.replace(/\/?refs\/tags\//, '')}`
 
       - name: Publish to node
         env:
