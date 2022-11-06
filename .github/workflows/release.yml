@@ -230,6 +230,13 @@ jobs:
           script: |
             return `${process.env.REF.replace(/\/?refs\/tags\//, '')}`
 
+      # The types .d.ts file normally has a version number in it
+      # This is useful for people using the file directly so they can download multiple versions and keep track of which one is which
+      # But for the npm package, it's easier to rename it to be consistent than to dynamically edit the package.json and tsconfig.json
+      - name: Remove version number from .d.ts file
+        run:
+          mv dist/typescript/JsMacros-*.d.ts dist/typescript/JsMacros.d.ts
+
       - name: Publish to node
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
