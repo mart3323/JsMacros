@@ -78,7 +78,7 @@ jobs:
       # But for the npm package, it's easier to rename it to be consistent than to dynamically edit the package.json and tsconfig.json
       - name: Remove version number from .d.ts file
         run:
-          mv dist/typescript/JsMacros-*.d.ts dist/typescript/JsMacros.d.ts
+          mv dist/typescript/headers/JsMacros-*.d.ts dist/typescript/headers/JsMacros.d.ts
 
       - name: Publish to node
         env:
